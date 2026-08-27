@@ -62,120 +62,55 @@
 </div>
 
 <script>
-// ══════════════════════════════════════════════════════
-// 29張照片，完全不重複，直接以列為單位定義
-// 橫向(H)9張：平均分散到各列
-// 直向(D)20張：填入剩餘位置
-//
-// 列1: H  D  D  H  D  D   = 6張
-// 列2: D  H  D  D  H  D   = 6張
-// 列3: D  D  H  D  D      = 5張
-// 列4: H  D  D  H  D  D   = 6張
-// 列5: D  D  H  D  D  D   = 6張
-// 合計: 6+6+5+6+6 = 29張 ✓
-// 橫向用量: 2+2+1+2+1 = 8... 需要9張
-// 調整列5為: D D H D H D = 6張，橫向+1 = 9 ✓
-// ══════════════════════════════════════════════════════
+// 大寫JPG：DSC00997 DSC01025 DSC01048 DSC01078 DSC01167 DSC01262 DSC01318 DSC01670 DSC01779 DSC043099
+// 小寫jpg：其餘所有
 
-// 每列直接列出完整檔名，一目瞭然
-const rows = [
+const ROWS = [
   // 列1: H D D H D D
   [
-    'photos/DSC00997.jpg',    // H 橫
-    'photos/DSC01025.jpg',    // D 直
-    'photos/DSC01048.jpg',    // D 直
-    'photos/DSC03920.jpg',    // H 橫
-    'photos/DSC01078.jpg',    // D 直
-    'photos/DSC01167.jpg',    // D 直
+    'photos/DSC00997.JPG',    // H 大寫
+    'photos/DSC01025.JPG',    // D 大寫
+    'photos/DSC01048.JPG',    // D 大寫
+    'photos/DSC03920.jpg',    // H 小寫
+    'photos/DSC01078.JPG',    // D 大寫
+    'photos/DSC01167.JPG',    // D 大寫
   ],
   // 列2: D H D D H D
   [
-    'photos/DSC01262.jpg',    // D 直
-    'photos/DSC03408.jpg',    // H 橫
-    'photos/DSC01318.jpg',    // D 直
-    'photos/DSC01670.jpg',    // D 直
-    'photos/DSC03976.jpg',    // H 橫
-    'photos/DSC01779.jpg',    // D 直
+    'photos/DSC01262.JPG',    // D 大寫
+    'photos/DSC03408.jpg',    // H 小寫
+    'photos/DSC01318.JPG',    // D 大寫
+    'photos/DSC01670.JPG',    // D 大寫
+    'photos/DSC03976.jpg',    // H 小寫
+    'photos/DSC01779.JPG',    // D 大寫
   ],
   // 列3: D D H D D
   [
-    'photos/DSC03919.jpg',    // D 直
-    'photos/DSC05008.jpg',    // D 直
-    'photos/DSC04245.jpg',    // H 橫
-    'photos/DSC05108.jpg',    // D 直
-    'photos/DSC05273.jpg',    // D 直
+    'photos/DSC03919.jpg',    // D 小寫
+    'photos/DSC05008.jpg',    // D 小寫
+    'photos/DSC04245.jpg',    // H 小寫
+    'photos/DSC05108.jpg',    // D 小寫
+    'photos/DSC05273.jpg',    // D 小寫
   ],
   // 列4: H D D H D D
   [
-    'photos/DSC04290.jpg',    // H 橫
-    'photos/DSC05377.jpg',    // D 直
-    'photos/DSC05850.jpg',    // D 直
-    'photos/DSC04519.jpg',    // H 橫
-    'photos/DSC05969.jpg',    // D 直
-    'photos/DSC06102.jpg',    // D 直
+    'photos/DSC04290.jpg',    // H 小寫
+    'photos/DSC05377.jpg',    // D 小寫
+    'photos/DSC05850.jpg',    // D 小寫
+    'photos/DSC04519.jpg',    // H 小寫
+    'photos/DSC05969.jpg',    // D 小寫
+    'photos/DSC06102.jpg',    // D 小寫
   ],
-  // 列5: D D H D H D
+  // 列5: D H D D H D
   [
-    'photos/DSC06112.jpg',    // D 直 ← 注意：DSC06112是橫向！
-    'photos/DSC043031.jpg',   // D 直
-    'photos/DSC04663.jpg',    // H 橫
-    'photos/DSC043036.jpg',   // D 直
-    'photos/DSC04519.jpg',    // H 橫 ← 重複！
-    'photos/DSC043038.jpg',   // D 直
+    'photos/DSC043031.jpg',   // D 小寫
+    'photos/DSC04663.jpg',    // H 小寫
+    'photos/DSC043036.jpg',   // D 小寫
+    'photos/DSC043038.jpg',   // D 小寫
+    'photos/DSC06112.jpg',    // H 小寫
+    'photos/DSC043099.JPG',   // D 大寫
   ],
 ];
-
-// 重新整理，一次確認好：
-// 橫向(H) 9張清單：DSC00997 DSC03408 DSC03920 DSC03976 DSC04245 DSC04290 DSC04519 DSC04663 DSC06112
-// 直向(D) 20張清單：DSC01025 DSC01048 DSC01078 DSC01167 DSC01262 DSC01318 DSC01670 DSC01779 DSC03919 DSC05008 DSC05108 DSC05273 DSC05377 DSC05850 DSC05969 DSC06102 DSC043031 DSC043036 DSC043038 DSC043099
-
-const ROWS = [
-  // 列1: H D D H D D (6張)
-  [
-    'photos/DSC00997.jpg',    // H1
-    'photos/DSC01025.jpg',    // D1
-    'photos/DSC01048.jpg',    // D2
-    'photos/DSC03920.jpg',    // H2
-    'photos/DSC01078.jpg',    // D3
-    'photos/DSC01167.jpg',    // D4
-  ],
-  // 列2: D H D D H D (6張)
-  [
-    'photos/DSC01262.jpg',    // D5
-    'photos/DSC03408.jpg',    // H3
-    'photos/DSC01318.jpg',    // D6
-    'photos/DSC01670.jpg',    // D7
-    'photos/DSC03976.jpg',    // H4
-    'photos/DSC01779.jpg',    // D8
-  ],
-  // 列3: D D H D D (5張)
-  [
-    'photos/DSC03919.jpg',    // D9
-    'photos/DSC05008.jpg',    // D10
-    'photos/DSC04245.jpg',    // H5
-    'photos/DSC05108.jpg',    // D11
-    'photos/DSC05273.jpg',    // D12
-  ],
-  // 列4: H D D H D D (6張)
-  [
-    'photos/DSC04290.jpg',    // H6
-    'photos/DSC05377.jpg',    // D13
-    'photos/DSC05850.jpg',    // D14
-    'photos/DSC04519.jpg',    // H7
-    'photos/DSC05969.jpg',    // D15
-    'photos/DSC06102.jpg',    // D16
-  ],
-  // 列5: D H D D H D (6張)
-  [
-    'photos/DSC043031.jpg',   // D17
-    'photos/DSC04663.jpg',    // H8
-    'photos/DSC043036.jpg',   // D18
-    'photos/DSC043038.jpg',   // D19
-    'photos/DSC06112.jpg',    // H9 ← DSC06112確認為橫向
-    'photos/DSC043099.jpg',   // D20
-  ],
-];
-// 合計: 6+6+5+6+6 = 29張，橫向用9張，直向用20張 ✓ 完全不重複 ✓
 
 const allPhotos = ROWS.flat();
 document.getElementById('photoCount').textContent = `${allPhotos.length} photographs`;
